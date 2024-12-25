@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Wordle.GamePage">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="Wordle.GamePage">
     <ContentPage.Resources>
         <ResourceDictionary>
             <x:Double x:Key="BoxSize">50</x:Double>
@@ -20,12 +20,40 @@
             <Setter Property="Color" Value="White"/>
         </Style>
     </ContentPage.Resources>
-    <Grid>
-        <VerticalStackLayout 
-            x:Name="WordleVerticalStack"
-            Style="{StaticResource WordleVertical}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center">
-        </VerticalStackLayout>
-    </Grid>
+    <VerticalStackLayout>
+        <Picker Title="row"
+              SelectedItem="{Binding RowCount, Mode=TwoWay}">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:Int32}">
+                    <x:Int32>3</x:Int32>
+                    <x:Int32>4</x:Int32>
+                    <x:Int32>5</x:Int32>
+                    <x:Int32>6</x:Int32>
+                    <x:Int32>7</x:Int32>
+                    <x:Int32>8</x:Int32>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+        <Picker Title="col"
+              SelectedItem="{Binding WordSize, Mode=TwoWay}">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:Int32}">
+                    <x:Int32>3</x:Int32>
+                    <x:Int32>4</x:Int32>
+                    <x:Int32>5</x:Int32>
+                    <x:Int32>6</x:Int32>
+                    <x:Int32>7</x:Int32>
+                    <x:Int32>8</x:Int32>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+        <Grid>
+            <VerticalStackLayout 
+			x:Name="WordleVerticalStack"
+			Style="{StaticResource WordleVertical}"
+			VerticalOptions="Center" 
+			HorizontalOptions="Center">
+            </VerticalStackLayout>
+        </Grid>
+    </VerticalStackLayout>
 </ContentPage>
