@@ -1,4 +1,3 @@
-
 namespace Wordle;
 
 public partial class GamePage : ContentPage
@@ -8,6 +7,8 @@ public partial class GamePage : ContentPage
 
     public static readonly BindableProperty RowCountProperty =
         BindableProperty.Create(nameof(RowCount), typeof(int), typeof(GamePage), 6, propertyChanged: OnGridSizeChanged);
+
+    private int currentRow = 0;
 
     public int WordSize
     {
@@ -27,6 +28,15 @@ public partial class GamePage : ContentPage
         BindingContext = this;
 
         RebuildGrid();
+
+        MainEntry.TextChanged +=
+            (object? sender, TextChangedEventArgs e) => UpdateGridString(e.NewTextValue, currentRow);
+
+        MainEntry.Completed += (object? sender, EventArgs e) =>
+            {
+                currentRow++;
+                MainEntry.Text = "";
+            };
     }
 
     private static void OnGridSizeChanged(BindableObject bindable, object oldValue, object newValue)
@@ -37,6 +47,8 @@ public partial class GamePage : ContentPage
 
     private void RebuildGrid()
     {
+        MainEntry.MaxLength = WordSize;
+
         WordleVerticalStack.Clear();
 
         for (int i = 0; i < RowCount; i++)
@@ -48,13 +60,30 @@ public partial class GamePage : ContentPage
 
             for (int j = 0; j < WordSize; j++)
             {
-                layout.Add(new BoxView()
+                layout.Add(new Label()
                 {
                     Style = (Style)Resources["WordleBox"]
                 });
             }
 
             WordleVerticalStack.Add(layout);
+        }
+    }
+
+    private void UpdateGridString(string str, int row)
+    {
+        if (row >= WordleVerticalStack.Children.Count)
+            return;
+
+        if (WordleVerticalStack.Children[row] is not HorizontalStackLayout layout)
+            return;
+
+        for (int i = 0; i < layout.Children.Count; i++)
+        {
+            if (layout.Children[i] is not Label label)
+                continue;
+
+            label.Text = i < str.Length ? str[i].ToString().ToUpper() : "";
         }
     }
 }

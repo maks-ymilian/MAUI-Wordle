@@ -14,15 +14,22 @@
         <Style x:Key="WordleHorizontal" TargetType="HorizontalStackLayout">
             <Setter Property="Spacing" Value="{StaticResource Spacing}"/>
         </Style>
-        <Style x:Key="WordleBox" TargetType="BoxView">
+        <Style x:Key="WordleBox" TargetType="Label">
             <Setter Property="WidthRequest" Value="50"/>
             <Setter Property="HeightRequest" Value="50"/>
-            <Setter Property="Color" Value="White"/>
+            <Setter Property="BackgroundColor" Value="#333333"/>
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
         </Style>
     </ContentPage.Resources>
-    <VerticalStackLayout>
+    <VerticalStackLayout VerticalOptions="FillAndExpand">
+
+        <HorizontalStackLayout HorizontalOptions="Center">
         <Picker Title="row"
-              SelectedItem="{Binding RowCount, Mode=TwoWay}">
+			    WidthRequest="80"
+			    SelectedItem="{Binding RowCount, Mode=TwoWay}">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:Int32}">
                     <x:Int32>3</x:Int32>
@@ -35,7 +42,8 @@
             </Picker.ItemsSource>
         </Picker>
         <Picker Title="col"
-              SelectedItem="{Binding WordSize, Mode=TwoWay}">
+				WidthRequest="80"
+				SelectedItem="{Binding WordSize, Mode=TwoWay}">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:Int32}">
                     <x:Int32>3</x:Int32>
@@ -47,7 +55,9 @@
                 </x:Array>
             </Picker.ItemsSource>
         </Picker>
-        <Grid>
+        </HorizontalStackLayout>
+
+        <Grid Padding="10">
             <VerticalStackLayout 
 			x:Name="WordleVerticalStack"
 			Style="{StaticResource WordleVertical}"
@@ -55,5 +65,7 @@
 			HorizontalOptions="Center">
             </VerticalStackLayout>
         </Grid>
+
+        <Entry x:Name="MainEntry" WidthRequest="200" HeightRequest="40" HorizontalOptions="Center"/>
     </VerticalStackLayout>
 </ContentPage>
