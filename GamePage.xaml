@@ -22,30 +22,10 @@
     </ContentPage.Resources>
     <Grid>
         <VerticalStackLayout 
+            x:Name="WordleVerticalStack"
             Style="{StaticResource WordleVertical}"
             VerticalOptions="Center" 
             HorizontalOptions="Center">
-            <HorizontalStackLayout Style="{StaticResource WordleHorizontal}">
-                <BoxView Style="{StaticResource WordleBox}"/>
-                <BoxView Style="{StaticResource WordleBox}"/>
-                <BoxView Style="{StaticResource WordleBox}"/>
-                <BoxView Style="{StaticResource WordleBox}"/>
-                <BoxView Style="{StaticResource WordleBox}"/>
-            </HorizontalStackLayout>
-            <HorizontalStackLayout Style="{StaticResource WordleHorizontal}">
-                <BoxView Style="{StaticResource WordleBox}"/>
-                <BoxView Style="{StaticResource WordleBox}"/>
-                <BoxView Style="{StaticResource WordleBox}"/>
-                <BoxView Style="{StaticResource WordleBox}"/>
-                <BoxView Style="{StaticResource WordleBox}"/>
-            </HorizontalStackLayout>
-            <HorizontalStackLayout Style="{StaticResource WordleHorizontal}">
-                <BoxView Style="{StaticResource WordleBox}"/>
-                <BoxView Style="{StaticResource WordleBox}"/>
-                <BoxView Style="{StaticResource WordleBox}"/>
-                <BoxView Style="{StaticResource WordleBox}"/>
-                <BoxView Style="{StaticResource WordleBox}"/>
-            </HorizontalStackLayout>
         </VerticalStackLayout>
     </Grid>
 </ContentPage>
