@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Wordle.GamePage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <x:Double x:Key="BoxSize">50</x:Double>
+            <x:Double x:Key="Spacing">5</x:Double>
+        </ResourceDictionary>
+
+        <Style x:Key="WordleVertical" TargetType="HorizontalStackLayout">
+            <Setter Property="Spacing" Value="{StaticResource Spacing}"/>
+        </Style>
+        <Style x:Key="WordleHorizontal" TargetType="HorizontalStackLayout">
+            <Setter Property="Spacing" Value="{StaticResource Spacing}"/>
+        </Style>
+        <Style x:Key="WordleBox" TargetType="BoxView">
+            <Setter Property="WidthRequest" Value="50"/>
+            <Setter Property="HeightRequest" Value="50"/>
+            <Setter Property="Color" Value="White"/>
+        </Style>
+    </ContentPage.Resources>
+    <Grid>
+        <VerticalStackLayout 
+            Style="{StaticResource WordleVertical}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center">
+            <HorizontalStackLayout Style="{StaticResource WordleHorizontal}">
+                <BoxView Style="{StaticResource WordleBox}"/>
+                <BoxView Style="{StaticResource WordleBox}"/>
+                <BoxView Style="{StaticResource WordleBox}"/>
+                <BoxView Style="{StaticResource WordleBox}"/>
+                <BoxView Style="{StaticResource WordleBox}"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Style="{StaticResource WordleHorizontal}">
+                <BoxView Style="{StaticResource WordleBox}"/>
+                <BoxView Style="{StaticResource WordleBox}"/>
+                <BoxView Style="{StaticResource WordleBox}"/>
+                <BoxView Style="{StaticResource WordleBox}"/>
+                <BoxView Style="{StaticResource WordleBox}"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Style="{StaticResource WordleHorizontal}">
+                <BoxView Style="{StaticResource WordleBox}"/>
+                <BoxView Style="{StaticResource WordleBox}"/>
+                <BoxView Style="{StaticResource WordleBox}"/>
+                <BoxView Style="{StaticResource WordleBox}"/>
+                <BoxView Style="{StaticResource WordleBox}"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
