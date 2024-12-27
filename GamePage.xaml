@@ -15,14 +15,31 @@
         <Style x:Key="WordleHorizontal" TargetType="HorizontalStackLayout">
             <Setter Property="Spacing" Value="{StaticResource Spacing}"/>
         </Style>
+
         <Style x:Key="WordleBox" TargetType="Label">
-            <Setter Property="WidthRequest" Value="50"/>
-            <Setter Property="HeightRequest" Value="50"/>
-            <Setter Property="BackgroundColor" Value="#333333"/>
+            <Setter Property="WidthRequest" Value="{StaticResource BoxSize}"/>
+            <Setter Property="HeightRequest" Value="{StaticResource BoxSize}"/>
+            <Setter Property="BackgroundColor" Value="#ff00ff"/>
             <Setter Property="TextColor" Value="White"/>
             <Setter Property="FontSize" Value="25"/>
             <Setter Property="VerticalTextAlignment" Value="Center"/>
             <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="WordleBoxEmpty" TargetType="Label" BasedOn="{StaticResource WordleBox}">
+            <Setter Property="BackgroundColor" Value="#000000"/>
+        </Style>
+
+        <Style x:Key="WordleBoxNotFound" TargetType="Label" BasedOn="{StaticResource WordleBox}">
+            <Setter Property="BackgroundColor" Value="#444444"/>
+        </Style>
+
+        <Style x:Key="WordleBoxPresent" TargetType="Label" BasedOn="{StaticResource WordleBox}">
+            <Setter Property="BackgroundColor" Value="#ffff00"/>
+        </Style>
+
+        <Style x:Key="WordleBoxCorrect" TargetType="Label" BasedOn="{StaticResource WordleBox}">
+            <Setter Property="BackgroundColor" Value="#00ff00"/>
         </Style>
 
     </ContentPage.Resources>

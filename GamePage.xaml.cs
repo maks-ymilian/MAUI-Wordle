@@ -1,22 +1,31 @@
+using System.Diagnostics;
+
 namespace Wordle;
 
 public partial class GamePage : ContentPage
 {
+    private readonly string word;
+
     private int currentRow = 0;
 
     public GamePage(int rows, int columns)
     {
+        word = "abcde";
+
         InitializeComponent();
         BindingContext = this;
 
         BuildGrid(rows, columns);
 
         MainEntry.TextChanged +=
-            (object? sender, TextChangedEventArgs e) => UpdateGridString(e.NewTextValue, currentRow);
+            (object? sender, TextChangedEventArgs e) => UpdateGridString(e.NewTextValue);
 
         MainEntry.Completed += (object? sender, EventArgs e) =>
             {
-                currentRow++;
+                if (MainEntry.Text.Length != columns)
+                    return;
+
+                UpdateGridWord();
                 MainEntry.Text = "";
             };
     }
@@ -38,7 +47,7 @@ public partial class GamePage : ContentPage
             {
                 layout.Add(new Label()
                 {
-                    Style = (Style)Resources["WordleBox"]
+                    Style = (Style)Resources["WordleBoxEmpty"]
                 });
             }
 
@@ -46,12 +55,12 @@ public partial class GamePage : ContentPage
         }
     }
 
-    private void UpdateGridString(string str, int row)
+    private void IterateBoxes(Action<Label, int> action)
     {
-        if (row >= WordleVerticalStack.Children.Count)
+        if (currentRow >= WordleVerticalStack.Children.Count)
             return;
 
-        if (WordleVerticalStack.Children[row] is not HorizontalStackLayout layout)
+        if (WordleVerticalStack.Children[currentRow] is not HorizontalStackLayout layout)
             return;
 
         for (int i = 0; i < layout.Children.Count; i++)
@@ -59,7 +68,34 @@ public partial class GamePage : ContentPage
             if (layout.Children[i] is not Label label)
                 continue;
 
-            label.Text = i < str.Length ? str[i].ToString().ToUpper() : "";
+            action(label, i);
         }
+    }
+
+    private void UpdateGridString(string str)
+    {
+        IterateBoxes((Label label, int col) =>
+        {
+            label.Text = col < str.Length ? str[col].ToString().ToUpper() : "";
+        });
+    }
+
+    private void UpdateGridWord()
+    {
+        IterateBoxes((Label label, int col) =>
+        {
+            Debug.Assert(col < word.Length);
+
+            string currentWord = word.ToLower();
+            char currentChar = label.Text.ToLower()[0];
+
+            if (currentChar == currentWord[col])
+                label.Style = (Style)Resources["WordleBoxCorrect"];
+            else if (currentWord.Contains(currentChar))
+                label.Style = (Style)Resources["WordleBoxPresent"];
+            else
+                label.Style = (Style)Resources["WordleBoxNotFound"];
+        });
+        currentRow++;
     }
 }
