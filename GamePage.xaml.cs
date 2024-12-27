@@ -22,11 +22,9 @@ public partial class GamePage : ContentPage
 
         MainEntry.Completed += (object? sender, EventArgs e) =>
             {
-                if (MainEntry.Text.Length != columns)
-                    return;
-
-                if (!wordList.IsValidWord(MainEntry.Text))
-                    return;
+                if (MainEntry.Text.Length != columns) return;
+                if (!MainEntry.Text.All(char.IsAsciiLetter)) return;
+                if (!wordList.IsValidWord(MainEntry.Text)) return;
 
                 UpdateGridWord();
                 MainEntry.Text = "";

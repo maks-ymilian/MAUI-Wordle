@@ -10,7 +10,7 @@ namespace Wordle
         private readonly HashSet<string> hashSet = hashSet;
 
         public string GetRandomWord() => list[(int)random.NextInt64(list.Count)];
-        public bool IsValidWord(string word) => hashSet.Contains(word);
+        public bool IsValidWord(string word) => hashSet.Contains(word.ToLower());
     }
 
     public class WordListManager
@@ -45,6 +45,8 @@ namespace Wordle
                     string? line = reader.ReadLine();
                     if (line == null)
                         break;
+
+                    line = line.ToLower();
 
                     list.Add(line);
                     if (!hashSet.Add(line))
