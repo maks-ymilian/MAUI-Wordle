@@ -6,24 +6,9 @@
 
         <HorizontalStackLayout HorizontalOptions="Center">
 
-            <Picker Title="row"
-			    WidthRequest="80"
-                SelectedItem="{Binding Rows, Mode=TwoWay}">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:Int32}">
-                        <x:Int32>3</x:Int32>
-                        <x:Int32>4</x:Int32>
-                        <x:Int32>5</x:Int32>
-                        <x:Int32>6</x:Int32>
-                        <x:Int32>7</x:Int32>
-                        <x:Int32>8</x:Int32>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
-
-            <Picker Title="col"
+            <Picker Title="Word Size"
 				WidthRequest="80"
-                SelectedItem="{Binding Columns, Mode=TwoWay}">
+                SelectedItem="{Binding WordSize, Mode=TwoWay}">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:Int32}">
                         <x:Int32>3</x:Int32>

@@ -6,25 +6,35 @@ public partial class GamePage : ContentPage
 {
     private int currentRow = 0;
 
+    private static readonly Dictionary<int, int> rowCounts = new()
+    {
+        { 3, 5 },
+        { 4, 5 },
+        { 5, 6 },
+        { 6, 7 },
+        { 7, 7 },
+        { 8, 7 },
+    };
+
     private readonly string word;
     private readonly WordList wordList;
     private HashSet<string> usedWords = new();
 
+    private readonly int wordSize;
     private readonly int rows;
-    private readonly int columns;
 
-    public GamePage(int rows, int columns, WordListManager wordListManager)
+    public GamePage(int wordSize, WordListManager wordListManager)
     {
-        this.rows = rows;
-        this.columns = columns;
+        this.wordSize = wordSize;
+        rows = rowCounts[wordSize];
 
-        wordList = wordListManager.GetWordList(columns).Result;
+        wordList = wordListManager.GetWordList(wordSize).Result;
         word = wordList.GetRandomWord();
 
         InitializeComponent();
         BindingContext = this;
 
-        BuildGrid(rows, columns);
+        BuildGrid(rows, wordSize);
 
         MainEntry.TextChanged += (object? sender, TextChangedEventArgs e) => UpdateGridText(e.NewTextValue);
         MainEntry.Completed += (object? sender, EventArgs e) => EnterWord();
@@ -71,7 +81,7 @@ public partial class GamePage : ContentPage
         string enteredWord = MainEntry.Text.ToLower();
         string currentWord = word.ToLower();
 
-        if (enteredWord.Length != columns)
+        if (enteredWord.Length != wordSize)
             return;
         if (!enteredWord.All(char.IsAsciiLetter))
             return;
