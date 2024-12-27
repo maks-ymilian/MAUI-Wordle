@@ -71,12 +71,12 @@ namespace Wordle
                 {
                     3,
                     new WordListLoader(GetPath("3-letter-words.txt"),
-                        "https://raw.githubusercontent.com/mstgnz/words/refs/heads/main/lang/en/length/3_letter_words.txt")
+                        "https://raw.githubusercontent.com/Fj00/CEL/refs/heads/master/2-15/3.txt")
                 },
                 {
                     4,
                     new WordListLoader(GetPath("4-letter-words.txt"),
-                        "https://raw.githubusercontent.com/mstgnz/words/refs/heads/main/lang/en/length/4_letter_words.txt")
+                        "https://raw.githubusercontent.com/Fj00/CEL/refs/heads/master/2-15/4.txt")
                 },
                 {
                     5,
@@ -86,17 +86,17 @@ namespace Wordle
                 {
                     6,
                     new WordListLoader(GetPath("6-letter-words.txt"),
-                        "https://raw.githubusercontent.com/mstgnz/words/refs/heads/main/lang/en/length/6_letter_words.txt")
+                        "https://raw.githubusercontent.com/Fj00/CEL/refs/heads/master/2-15/6.txt")
                 },
                 {
                     7,
                     new WordListLoader(GetPath("7-letter-words.txt"),
-                        "https://raw.githubusercontent.com/mstgnz/words/refs/heads/main/lang/en/length/7_letter_words.txt")
+                        "https://raw.githubusercontent.com/Fj00/CEL/refs/heads/master/2-15/7.txt")
                 },
                 {
                     8,
                     new WordListLoader(GetPath("8-letter-words.txt"),
-                        "https://raw.githubusercontent.com/mstgnz/words/refs/heads/main/lang/en/length/8_letter_words.txt")
+                        "https://raw.githubusercontent.com/Fj00/CEL/refs/heads/master/2-15/8.txt")
                 },
             };
         }
