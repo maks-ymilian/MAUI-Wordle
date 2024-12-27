@@ -21,8 +21,12 @@ public partial class GameStartPage : ContentPage
         BindingContext = this;
     }
 
-    private async void Button_Clicked(object sender, EventArgs e)
-    {
+    private async void PlayButtonClicked(object sender, EventArgs e) =>
         await Navigation.PushAsync(new GamePage(WordSize, wordListManager));
-    }
+
+    private async void HistoryButtonClicked(object sender, EventArgs e) =>
+        await Navigation.PushAsync(new HistoryPage());
+
+    private async void SettingsButtonClicked(object sender, EventArgs e) =>
+        await Navigation.PushAsync(new SettingsPage());
 }
