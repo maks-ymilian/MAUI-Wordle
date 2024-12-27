@@ -2,32 +2,14 @@ namespace Wordle;
 
 public partial class GamePage : ContentPage
 {
-    public static readonly BindableProperty WordSizeProperty =
-            BindableProperty.Create(nameof(WordSize), typeof(int), typeof(GamePage), 5, propertyChanged: OnGridSizeChanged);
-
-    public static readonly BindableProperty RowCountProperty =
-        BindableProperty.Create(nameof(RowCount), typeof(int), typeof(GamePage), 6, propertyChanged: OnGridSizeChanged);
-
     private int currentRow = 0;
 
-    public int WordSize
-    {
-        get => (int)GetValue(WordSizeProperty);
-        set => SetValue(WordSizeProperty, value);
-    }
-
-    public int RowCount
-    {
-        get => (int)GetValue(RowCountProperty);
-        set => SetValue(RowCountProperty, value);
-    }
-
-    public GamePage()
+    public GamePage(int rows, int columns)
     {
         InitializeComponent();
         BindingContext = this;
 
-        RebuildGrid();
+        BuildGrid(rows, columns);
 
         MainEntry.TextChanged +=
             (object? sender, TextChangedEventArgs e) => UpdateGridString(e.NewTextValue, currentRow);
@@ -39,26 +21,20 @@ public partial class GamePage : ContentPage
             };
     }
 
-    private static void OnGridSizeChanged(BindableObject bindable, object oldValue, object newValue)
+    private void BuildGrid(int rows, int columns)
     {
-        if (bindable is GamePage page)
-            page.RebuildGrid();
-    }
-
-    private void RebuildGrid()
-    {
-        MainEntry.MaxLength = WordSize;
+        MainEntry.MaxLength = columns;
 
         WordleVerticalStack.Clear();
 
-        for (int i = 0; i < RowCount; i++)
+        for (int i = 0; i < rows; i++)
         {
             HorizontalStackLayout layout = new()
             {
                 Style = (Style)Resources["WordleVertical"]
             };
 
-            for (int j = 0; j < WordSize; j++)
+            for (int j = 0; j < columns; j++)
             {
                 layout.Add(new Label()
                 {

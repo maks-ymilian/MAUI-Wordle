@@ -3,6 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 x:Class="Wordle.GamePage">
     <ContentPage.Resources>
+
         <ResourceDictionary>
             <x:Double x:Key="BoxSize">50</x:Double>
             <x:Double x:Key="Spacing">5</x:Double>
@@ -23,39 +24,10 @@
             <Setter Property="VerticalTextAlignment" Value="Center"/>
             <Setter Property="HorizontalTextAlignment" Value="Center"/>
         </Style>
-    </ContentPage.Resources>
-    <VerticalStackLayout VerticalOptions="FillAndExpand">
 
-        <HorizontalStackLayout HorizontalOptions="Center">
-        <Picker Title="row"
-			    WidthRequest="80"
-			    SelectedItem="{Binding RowCount, Mode=TwoWay}">
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:Int32}">
-                    <x:Int32>3</x:Int32>
-                    <x:Int32>4</x:Int32>
-                    <x:Int32>5</x:Int32>
-                    <x:Int32>6</x:Int32>
-                    <x:Int32>7</x:Int32>
-                    <x:Int32>8</x:Int32>
-                </x:Array>
-            </Picker.ItemsSource>
-        </Picker>
-        <Picker Title="col"
-				WidthRequest="80"
-				SelectedItem="{Binding WordSize, Mode=TwoWay}">
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:Int32}">
-                    <x:Int32>3</x:Int32>
-                    <x:Int32>4</x:Int32>
-                    <x:Int32>5</x:Int32>
-                    <x:Int32>6</x:Int32>
-                    <x:Int32>7</x:Int32>
-                    <x:Int32>8</x:Int32>
-                </x:Array>
-            </Picker.ItemsSource>
-        </Picker>
-        </HorizontalStackLayout>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout VerticalOptions="FillAndExpand">
 
         <Grid Padding="10">
             <VerticalStackLayout 
@@ -67,5 +39,6 @@
         </Grid>
 
         <Entry x:Name="MainEntry" WidthRequest="200" HeightRequest="40" HorizontalOptions="Center"/>
+
     </VerticalStackLayout>
 </ContentPage>
