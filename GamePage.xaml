@@ -9,7 +9,7 @@
             <x:Double x:Key="Spacing">5</x:Double>
         </ResourceDictionary>
 
-        <Style x:Key="WordleVertical" TargetType="HorizontalStackLayout">
+        <Style x:Key="WordleVertical" TargetType="VerticalStackLayout">
             <Setter Property="Spacing" Value="{StaticResource Spacing}"/>
         </Style>
         <Style x:Key="WordleHorizontal" TargetType="HorizontalStackLayout">

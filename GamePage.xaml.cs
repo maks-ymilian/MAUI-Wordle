@@ -8,21 +8,24 @@ public partial class GamePage : ContentPage
 
     private int currentRow = 0;
 
-    public GamePage(int rows, int columns)
+    public GamePage(int rows, int columns, WordListManager wordListManager)
     {
-        word = "abcde";
+        WordList wordList = wordListManager.GetWordList(columns).Result;
+        word = wordList.GetRandomWord();
 
         InitializeComponent();
         BindingContext = this;
 
         BuildGrid(rows, columns);
 
-        MainEntry.TextChanged +=
-            (object? sender, TextChangedEventArgs e) => UpdateGridString(e.NewTextValue);
+        MainEntry.TextChanged += (object? sender, TextChangedEventArgs e) => UpdateGridString(e.NewTextValue);
 
         MainEntry.Completed += (object? sender, EventArgs e) =>
             {
                 if (MainEntry.Text.Length != columns)
+                    return;
+
+                if (!wordList.IsValidWord(MainEntry.Text))
                     return;
 
                 UpdateGridWord();
