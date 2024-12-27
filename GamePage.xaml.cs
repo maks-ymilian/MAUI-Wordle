@@ -24,14 +24,10 @@ public partial class GamePage : ContentPage
         InitializeComponent();
         BindingContext = this;
 
-            BuildGrid(rows, columns);
+        BuildGrid(rows, columns);
 
         MainEntry.TextChanged += (object? sender, TextChangedEventArgs e) => UpdateGridText(e.NewTextValue);
-        MainEntry.Completed += (object? sender, EventArgs e) =>
-            {
-                if (EnterWord(MainEntry.Text))
-                    MainEntry.Text = "";
-            };
+        MainEntry.Completed += (object? sender, EventArgs e) => EnterWord();
     }
 
     private void BuildGrid(int rows, int columns)
@@ -59,31 +55,36 @@ public partial class GamePage : ContentPage
         }
     }
 
-    private void UpdateGridText(string str)
+    private void EndGame()
     {
-        IterateRow((Label label, int col) =>
+        MainEntry.Unfocus();
+        MainLayout.Remove(MainEntry);
+        MainLayout.Add(new Label()
         {
-            label.Text = col < str.Length ? str[col].ToString() : "";
+            Style = (Style)Resources["WordRevealText"],
+            Text = word,
         });
     }
 
-    private bool EnterWord(string enteredWord)
+    private void EnterWord()
     {
-        if (MainEntry.Text.Length != columns)
-            return false;
-        if (!MainEntry.Text.All(char.IsAsciiLetter))
-            return false;
-        if (usedWords.Contains(MainEntry.Text.ToLower()))
-            return false;
-        if (!wordList.IsValidWord(MainEntry.Text))
-            return false;
-
-        usedWords.Add(MainEntry.Text.ToLower());
-
-        enteredWord = enteredWord.ToLower();
+        string enteredWord = MainEntry.Text.ToLower();
         string currentWord = word.ToLower();
 
-        IterateRow((Label label, int col) =>
+        if (enteredWord.Length != columns)
+            return;
+        if (!enteredWord.All(char.IsAsciiLetter))
+            return;
+        if (usedWords.Contains(enteredWord))
+            return;
+        if (!wordList.IsValidWord(enteredWord))
+            return;
+
+        usedWords.Add(enteredWord);
+        MainEntry.Text = "";
+
+        bool isCorrect = true;
+        IterateCurrentRow((Label label, int col) =>
         {
             Debug.Assert(col < word.Length && col < enteredWord.Length);
 
@@ -91,18 +92,35 @@ public partial class GamePage : ContentPage
             label.Text = currentChar.ToString();
 
             if (currentChar == currentWord[col])
+            {
                 label.Style = (Style)Resources["WordleBoxCorrect"];
+            }
             else if (currentWord.Contains(currentChar))
+            {
                 label.Style = (Style)Resources["WordleBoxPresent"];
+                isCorrect = false;
+            }
             else
+            {
                 label.Style = (Style)Resources["WordleBoxNotFound"];
+                isCorrect = false;
+            }
         });
         currentRow++;
 
-        return true;
+        if (isCorrect || currentRow >= rows)
+            EndGame();
     }
 
-    private void IterateRow(Action<Label, int> action)
+    private void UpdateGridText(string str)
+    {
+        IterateCurrentRow((Label label, int col) =>
+        {
+            label.Text = col < str.Length ? str[col].ToString() : "";
+        });
+    }
+
+    private void IterateCurrentRow(Action<Label, int> action)
     {
         if (currentRow >= WordleVerticalStack.Children.Count)
             return;
