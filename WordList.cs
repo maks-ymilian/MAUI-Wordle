@@ -17,9 +17,11 @@ namespace Wordle
     {
         private class WordListLoader(string filePath, string url)
         {
+            private static readonly HttpClient client = new();
+
             private WordList? wordList;
 
-            public async Task<WordList> GetWordList()
+            public async Task<WordList> GetWordListAsync()
             {
                 if (wordList != null)
                     return wordList;
@@ -29,7 +31,6 @@ namespace Wordle
 
                 if (!File.Exists(filePath))
                 {
-                    using HttpClient client = new();
                     using Stream wordStream = await client.GetStreamAsync(url).ConfigureAwait(false);
                     using FileStream fileStream = File.OpenWrite(filePath);
 
@@ -107,7 +108,7 @@ namespace Wordle
             if (loader == null)
                 throw new InvalidOperationException("Unsupported number of letters");
 
-            return await loader.GetWordList().ConfigureAwait(false);
+            return await loader.GetWordListAsync().ConfigureAwait(false);
         }
     }
 }

@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace Wordle;
 
 public partial class GameStartPage : ContentPage
@@ -33,9 +31,17 @@ public partial class GameStartPage : ContentPage
     private async void PlayButtonClicked(object sender, EventArgs e)
     {
         IsLoading = true;
-        GamePage page = await GamePage.CreateGamePageAsync(WordSize, wordListManager);
-        IsLoading = false;
-        await Navigation.PushAsync(page);
+
+        try
+        {
+            GamePage page = await GamePage.CreateGamePageAsync(WordSize, wordListManager);
+            await Navigation.PushAsync(page);
+        }
+        catch (HttpRequestException) { }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     private void HistoryButtonClicked(object sender, EventArgs e) => Navigation.PushAsync(new HistoryPage());
