@@ -31,8 +31,6 @@ public partial class GamePage : ContentPage
         InitializeComponent();
         BindingContext = this;
 
-        BuildGrid(rows, wordSize);
-
         MainEntry.TextChanged += (object? sender, TextChangedEventArgs e) => UpdateGridText(e.NewTextValue);
         MainEntry.Completed += (object? sender, EventArgs e) => EnterWord();
     }
@@ -40,14 +38,15 @@ public partial class GamePage : ContentPage
     public static async Task<GamePage> CreateGamePageAsync(int wordSize, WordListManager wordListManager)
     {
         GamePage gamePage = new(wordSize, wordListManager);
+        await Task.Run(() => gamePage.BuildGrid());
         gamePage.wordList = await wordListManager.GetWordList(wordSize).ConfigureAwait(false);
         gamePage.word = gamePage.wordList.GetRandomWord();
         return gamePage;
     }
 
-    private void BuildGrid(int rows, int columns)
+    private void BuildGrid()
     {
-        MainEntry.MaxLength = columns;
+        MainEntry.MaxLength = wordSize;
 
         WordleVerticalStack.Clear();
 
@@ -58,7 +57,7 @@ public partial class GamePage : ContentPage
                 Style = (Style)Resources["WordleVertical"]
             };
 
-            for (int j = 0; j < columns; j++)
+            for (int j = 0; j < wordSize; j++)
             {
                 layout.Add(new Label()
                 {
