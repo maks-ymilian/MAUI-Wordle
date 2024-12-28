@@ -16,9 +16,11 @@ public partial class GamePage : ContentPage
         { 8, 7 },
     };
 
+    private WordleView? wordleView;
+
     private string? word;
     private WordList? wordList;
-    private HashSet<string> usedWords = new();
+    private readonly HashSet<string> usedWords = new();
 
     private readonly int wordSize;
     private readonly int rows;
@@ -31,42 +33,25 @@ public partial class GamePage : ContentPage
         InitializeComponent();
         BindingContext = this;
 
-        MainEntry.TextChanged += (object? sender, TextChangedEventArgs e) => UpdateGridText(e.NewTextValue);
+        MainEntry.MaxLength = wordSize;
+        MainEntry.TextChanged += (object? sender, TextChangedEventArgs e) => wordleView?.SetRowText(e.NewTextValue, currentRow);
         MainEntry.Completed += (object? sender, EventArgs e) => EnterWord();
     }
 
     public static async Task<GamePage> CreateGamePageAsync(int wordSize, WordListManager wordListManager)
     {
         GamePage gamePage = new(wordSize, wordListManager);
-        await Task.Run(() => gamePage.BuildGrid());
+
+        await Task.Run(() =>
+        {
+            gamePage.wordleView = new(gamePage.rows, wordSize, 50);
+            gamePage.MainLayout.Insert(0, gamePage.wordleView);
+        });
+
         gamePage.wordList = await wordListManager.GetWordList(wordSize).ConfigureAwait(false);
         gamePage.word = gamePage.wordList.GetRandomWord();
+
         return gamePage;
-    }
-
-    private void BuildGrid()
-    {
-        MainEntry.MaxLength = wordSize;
-
-        WordleVerticalStack.Clear();
-
-        for (int i = 0; i < rows; i++)
-        {
-            HorizontalStackLayout layout = new()
-            {
-                Style = (Style)Resources["WordleVertical"]
-            };
-
-            for (int j = 0; j < wordSize; j++)
-            {
-                layout.Add(new Label()
-                {
-                    Style = (Style)Resources["WordleBoxEmpty"]
-                });
-            }
-
-            WordleVerticalStack.Add(layout);
-        }
     }
 
     private void EndGame()
@@ -82,7 +67,7 @@ public partial class GamePage : ContentPage
 
     private void EnterWord()
     {
-        Debug.Assert(word != null && wordList != null);
+        Debug.Assert(word != null && wordList != null && wordleView != null);
 
         string enteredWord = MainEntry.Text.ToLower();
         string currentWord = word.ToLower();
@@ -100,56 +85,30 @@ public partial class GamePage : ContentPage
         MainEntry.Text = "";
 
         bool isCorrect = true;
-        IterateCurrentRow((Label label, int col) =>
+        for (int col = 0; col < wordSize; col++)
         {
             Debug.Assert(col < word.Length && col < enteredWord.Length);
 
-            char currentChar = enteredWord[col];
-            label.Text = currentChar.ToString();
+            wordleView.SetChar(currentRow, col, enteredWord[col]);
 
-            if (currentChar == currentWord[col])
+            if (enteredWord[col] == currentWord[col])
             {
-                label.Style = (Style)Resources["WordleBoxCorrect"];
+                wordleView.SetTile(currentRow, col, WordleView.WordleTile.Correct);
             }
-            else if (currentWord.Contains(currentChar))
+            else if (currentWord.Contains(enteredWord[col]))
             {
-                label.Style = (Style)Resources["WordleBoxPresent"];
+                wordleView.SetTile(currentRow, col, WordleView.WordleTile.Present);
                 isCorrect = false;
             }
             else
             {
-                label.Style = (Style)Resources["WordleBoxNotFound"];
+                wordleView.SetTile(currentRow, col, WordleView.WordleTile.NotFound);
                 isCorrect = false;
             }
-        });
+        }
         currentRow++;
 
         if (isCorrect || currentRow >= rows)
             EndGame();
-    }
-
-    private void UpdateGridText(string str)
-    {
-        IterateCurrentRow((Label label, int col) =>
-        {
-            label.Text = col < str.Length ? str[col].ToString() : "";
-        });
-    }
-
-    private void IterateCurrentRow(Action<Label, int> action)
-    {
-        if (currentRow >= WordleVerticalStack.Children.Count)
-            return;
-
-        if (WordleVerticalStack.Children[currentRow] is not HorizontalStackLayout layout)
-            return;
-
-        for (int i = 0; i < layout.Children.Count; i++)
-        {
-            if (layout.Children[i] is not Label label)
-                continue;
-
-            action(label, i);
-        }
     }
 }
