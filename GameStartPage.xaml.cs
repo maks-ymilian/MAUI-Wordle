@@ -44,6 +44,16 @@ public partial class GameStartPage : ContentPage
         }
     }
 
-    private void HistoryButtonClicked(object sender, EventArgs e) => Navigation.PushAsync(new HistoryPage());
+    private async void HistoryButtonClicked(object sender, EventArgs e)
+    {
+        HistoryPage? page = null;
+
+        IsLoading = true;
+        await Task.Run(() => page = new());
+        IsLoading = false;
+
+        await Navigation.PushAsync(page);
+    }
+
     private void SettingsButtonClicked(object sender, EventArgs e) => Navigation.PushAsync(new SettingsPage());
 }

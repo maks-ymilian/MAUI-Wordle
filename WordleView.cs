@@ -10,35 +10,42 @@ public class WordleView : Grid
         Correct,
     }
 
-    private VerticalStackLayout vertical;
+    public static readonly BindableProperty HistoryEntryProperty = BindableProperty.Create(
+        nameof(HistoryEntry), typeof(HistoryEntry?), typeof(WordleView), null);
 
-    private readonly int rows;
-    private readonly int columns;
+    private readonly VerticalStackLayout vertical;
 
     private readonly Color emptyColor = Color.FromRgb(0, 0, 0);
     private readonly Color notFoundColor = Color.FromRgb(68, 68, 68);
     private readonly Color presentColor = Color.FromRgb(255, 255, 0);
     private readonly Color correctColor = Color.FromRgb(0, 255, 0);
 
-    public WordleView(int rows, int columns, float boxSize)
-    {
-        this.rows = rows;
-        this.columns = columns;
+    public int Rows { set; get; }
+    public int Columns { set; get; }
 
+    public float BoxSize { set; get; }
+
+    public HistoryEntry? HistoryEntry
+    {
+        get => (HistoryEntry?)GetValue(HistoryEntryProperty);
+        set => SetValue(HistoryEntryProperty, value);
+    }
+
+    public WordleView()
+    {
         vertical = new()
         {
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
-            Spacing = 5,
         };
         Add(vertical);
 
-        BuildGrid(boxSize);
+        Loaded += (object? o, EventArgs e) => InitializeProperties();
     }
 
     public void SetRowText(string str, int row)
     {
-        for (int i = 0; i < columns; i++)
+        for (int i = 0; i < Columns; i++)
         {
             if (i < str.Length)
                 SetChar(row, i, str[i]);
@@ -84,12 +91,22 @@ public class WordleView : Grid
         };
     }
 
+    private void InitializeProperties()
+    {
+        vertical.Spacing = BoxSize / 10f;
+
+        BuildGrid(BoxSize);
+
+        if (HistoryEntry != null)
+            SetFromHistoryEntry((HistoryEntry)HistoryEntry);
+    }
+
     private void BuildGrid(float boxSize)
     {
-        for (int i = 0; i < rows; i++)
+        for (int i = 0; i < Rows; i++)
         {
-            HorizontalStackLayout layout = new() { Spacing = 5, };
-            for (int j = 0; j < columns; j++)
+            HorizontalStackLayout layout = new() { Spacing = boxSize / 10f, };
+            for (int j = 0; j < Columns; j++)
             {
                 layout.Add(new Label()
                 {
@@ -97,7 +114,7 @@ public class WordleView : Grid
                     HeightRequest = boxSize,
                     BackgroundColor = emptyColor,
                     TextColor = Colors.White,
-                    FontSize = 25,
+                    FontSize = boxSize / 2f,
                     TextTransform = TextTransform.Uppercase,
                     VerticalTextAlignment = TextAlignment.Center,
                     HorizontalTextAlignment = TextAlignment.Center,
@@ -105,6 +122,25 @@ public class WordleView : Grid
                 });
             }
             vertical.Add(layout);
+        }
+    }
+
+    private void SetFromHistoryEntry(HistoryEntry entry)
+    {
+        for (int row = 0; row < Rows; row++)
+        {
+            if (row < entry.textRows.Length)
+                SetRowText(entry.textRows[row], row);
+
+            for (int column = 0; column < Columns; column++)
+            {
+                WordleTile tile = WordleTile.Empty;
+                int index = row * Columns + column;
+                if (index < entry.tiles.Length)
+                    tile = entry.tiles[index];
+
+                SetTile(row, column, tile);
+            }
         }
     }
 }

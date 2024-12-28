@@ -44,7 +44,12 @@ public partial class GamePage : ContentPage
 
         await Task.Run(() =>
         {
-            gamePage.wordleView = new(gamePage.rows, wordSize, 50);
+            gamePage.wordleView = new()
+            {
+                Rows = gamePage.rows,
+                Columns = gamePage.wordSize,
+                BoxSize = 50,
+            };
             gamePage.MainLayout.Insert(0, gamePage.wordleView);
         });
 
