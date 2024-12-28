@@ -2,31 +2,42 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Wordle.GameStartPage">
-    <VerticalStackLayout VerticalOptions="Center"
-                         Spacing="10">
 
-        <HorizontalStackLayout HorizontalOptions="Center">
+    <Grid>
 
-            <Picker Title="Word Size"
-				WidthRequest="80"
-                SelectedItem="{Binding WordSize, Mode=TwoWay}">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:Int32}">
-                        <x:Int32>3</x:Int32>
-                        <x:Int32>4</x:Int32>
-                        <x:Int32>5</x:Int32>
-                        <x:Int32>6</x:Int32>
-                        <x:Int32>7</x:Int32>
-                        <x:Int32>8</x:Int32>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
+        <VerticalStackLayout VerticalOptions="Center"
+                             Spacing="10">
 
-        </HorizontalStackLayout>
+            <HorizontalStackLayout HorizontalOptions="Center">
 
-        <Button WidthRequest="200" Text="Play" Clicked="PlayButtonClicked"/>
-        <Button WidthRequest="200" Text="History" Clicked="HistoryButtonClicked"/>
-        <Button WidthRequest="200" Text="Settings" Clicked="SettingsButtonClicked"/>
+                <Picker Title="Word Size"
+                    WidthRequest="80"
+                    SelectedItem="{Binding WordSize, Mode=TwoWay}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:Int32}">
+                            <x:Int32>3</x:Int32>
+                            <x:Int32>4</x:Int32>
+                            <x:Int32>5</x:Int32>
+                            <x:Int32>6</x:Int32>
+                            <x:Int32>7</x:Int32>
+                            <x:Int32>8</x:Int32>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
 
-    </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <Button WidthRequest="200" Text="Play" Clicked="PlayButtonClicked"/>
+            <Button WidthRequest="200" Text="History" Clicked="HistoryButtonClicked"/>
+            <Button WidthRequest="200" Text="Settings" Clicked="SettingsButtonClicked"/>
+
+        </VerticalStackLayout>
+
+        <Grid x:Name="LoadingScreen"
+              BackgroundColor="#222222"
+              IsVisible="{Binding IsLoading, Mode=TwoWay}">
+            <ActivityIndicator IsRunning="True"/>
+        </Grid>
+
+    </Grid>
 </ContentPage>

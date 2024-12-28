@@ -16,20 +16,17 @@ public partial class GamePage : ContentPage
         { 8, 7 },
     };
 
-    private readonly string word;
-    private readonly WordList wordList;
+    private string? word;
+    private WordList? wordList;
     private HashSet<string> usedWords = new();
 
     private readonly int wordSize;
     private readonly int rows;
 
-    public GamePage(int wordSize, WordListManager wordListManager)
+    private GamePage(int wordSize, WordListManager wordListManager)
     {
         this.wordSize = wordSize;
         rows = rowCounts[wordSize];
-
-        wordList = wordListManager.GetWordList(wordSize).Result;
-        word = wordList.GetRandomWord();
 
         InitializeComponent();
         BindingContext = this;
@@ -38,6 +35,14 @@ public partial class GamePage : ContentPage
 
         MainEntry.TextChanged += (object? sender, TextChangedEventArgs e) => UpdateGridText(e.NewTextValue);
         MainEntry.Completed += (object? sender, EventArgs e) => EnterWord();
+    }
+
+    public static async Task<GamePage> CreateGamePageAsync(int wordSize, WordListManager wordListManager)
+    {
+        GamePage gamePage = new(wordSize, wordListManager);
+        gamePage.wordList = await wordListManager.GetWordList(wordSize).ConfigureAwait(false);
+        gamePage.word = gamePage.wordList.GetRandomWord();
+        return gamePage;
     }
 
     private void BuildGrid(int rows, int columns)
@@ -78,6 +83,8 @@ public partial class GamePage : ContentPage
 
     private void EnterWord()
     {
+        Debug.Assert(word != null && wordList != null);
+
         string enteredWord = MainEntry.Text.ToLower();
         string currentWord = word.ToLower();
 

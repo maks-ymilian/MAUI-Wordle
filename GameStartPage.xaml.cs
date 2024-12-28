@@ -4,10 +4,19 @@ namespace Wordle;
 
 public partial class GameStartPage : ContentPage
 {
+    private static readonly WordListManager wordListManager = new();
+
     public static readonly BindableProperty WordSizeProperty =
                 BindableProperty.Create(nameof(WordSize), typeof(int), typeof(GamePage), 5);
 
-    private static readonly WordListManager wordListManager = new();
+    public static readonly BindableProperty IsLoadingProperty =
+                BindableProperty.Create(nameof(IsLoading), typeof(bool), typeof(GamePage), false);
+
+    public bool IsLoading
+    {
+        get => (bool)GetValue(IsLoadingProperty);
+        set => SetValue(IsLoadingProperty, value);
+    }
 
     public int WordSize
     {
@@ -21,12 +30,14 @@ public partial class GameStartPage : ContentPage
         BindingContext = this;
     }
 
-    private async void PlayButtonClicked(object sender, EventArgs e) =>
-        await Navigation.PushAsync(new GamePage(WordSize, wordListManager));
+    private async void PlayButtonClicked(object sender, EventArgs e)
+    {
+        IsLoading = true;
+        GamePage page = await GamePage.CreateGamePageAsync(WordSize, wordListManager);
+        IsLoading = false;
+        await Navigation.PushAsync(page);
+    }
 
-    private async void HistoryButtonClicked(object sender, EventArgs e) =>
-        await Navigation.PushAsync(new HistoryPage());
-
-    private async void SettingsButtonClicked(object sender, EventArgs e) =>
-        await Navigation.PushAsync(new SettingsPage());
+    private void HistoryButtonClicked(object sender, EventArgs e) => Navigation.PushAsync(new HistoryPage());
+    private void SettingsButtonClicked(object sender, EventArgs e) => Navigation.PushAsync(new SettingsPage());
 }
