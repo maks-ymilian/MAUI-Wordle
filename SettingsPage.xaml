@@ -4,9 +4,15 @@
              x:Class="Wordle.SettingsPage"
              Title="SettingsPage">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+
+        <Label Text="Welcome to .NET MAUI!" 
+               VerticalOptions="Center" 
+                HorizontalOptions="Center"/>
+
+        <Picker Title="Theme" 
+                WidthRequest="200"
+                SelectedItem="{Binding ChosenTheme, Mode=TwoWay}"
+                ItemsSource="{Binding ThemePickerItems, Mode=TwoWay}"/>
+
     </VerticalStackLayout>
 </ContentPage>
