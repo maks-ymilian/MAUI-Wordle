@@ -11,7 +11,8 @@ public class History
         [property: JsonInclude] int Columns,
         [property: JsonInclude] string[] TextRows,
         [property: JsonInclude] WordleTile[] Tiles,
-        [property: JsonInclude] string Answer
+        [property: JsonInclude] string Answer,
+        [property: JsonInclude] DateTime DateTime
         );
 
     public List<HistoryEntry> List { get; private set; } = new();

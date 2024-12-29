@@ -80,7 +80,14 @@ public partial class GamePage : ContentPage
         for (int i = 0; i < rows; i++)
             textRows[i] = wordleView.GetRowText(i);
 
-        history.AddEntry(new HistoryEntry(rows, wordSize, textRows, wordleView.GetTiles(), word));
+        history.AddEntry(
+            new HistoryEntry(
+                rows,
+                wordSize,
+                textRows,
+                wordleView.GetTiles(),
+                word,
+                DateTime.Now));
     }
 
     private void EnterWord()

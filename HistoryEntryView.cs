@@ -43,7 +43,7 @@ namespace Wordle
                 });
                 Add(new Label()
                 {
-                    Text = "whenever",
+                    Text = HistoryEntry.DateTime.ToLongDateString() + " " + HistoryEntry.DateTime.ToShortTimeString(), 
                     FontSize = 15,
                     HorizontalOptions = LayoutOptions.Center,
                 });
