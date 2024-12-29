@@ -3,7 +3,7 @@ using static Wordle.History;
 
 namespace Wordle
 {
-    class HistoryEntryView : Grid
+    class HistoryEntryView : VerticalStackLayout
     {
         public static readonly BindableProperty HistoryEntryProperty = BindableProperty.Create(
             nameof(HistoryEntry), typeof(HistoryEntry), typeof(WordleView), null);
@@ -22,40 +22,31 @@ namespace Wordle
             {
                 Debug.Assert(HistoryEntry != null);
 
-                ColumnSpacing = 25;
-
-                ColumnDefinitions.Add(new(GridLength.Star));
-                ColumnDefinitions.Add(new(GridLength.Star));
+                Spacing = 10;
 
                 wordleView = new()
                 {
                     HistoryEntry = HistoryEntry,
-                    HorizontalOptions = LayoutOptions.End,
-                    HeightRequest = Height - (Padding.Top + Padding.Bottom),
+                    HorizontalOptions = LayoutOptions.Center,
+                    HeightRequest = 250,
                 };
                 Grid.SetColumn(wordleView, 0);
                 Add(wordleView);
 
-                VerticalStackLayout vertical = new()
-                {
-                    Spacing = 10,
-                };
-                vertical.Add(new Label()
+                Add(new Label()
                 {
                     Text = HistoryEntry.answer,
                     FontSize = 25,
-                    HorizontalOptions = LayoutOptions.Start,
+                    HorizontalOptions = LayoutOptions.Center,
                     FontAttributes = FontAttributes.Bold,
                     TextTransform = TextTransform.Uppercase,
                 });
-                vertical.Add(new Label()
+                Add(new Label()
                 {
                     Text = "whenever",
                     FontSize = 15,
-                    HorizontalOptions = LayoutOptions.Start,
+                    HorizontalOptions = LayoutOptions.Center,
                 });
-                Grid.SetColumn(vertical, 1);
-                Add(vertical);
             };
         }
     }

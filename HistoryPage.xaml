@@ -13,8 +13,7 @@
                 <DataTemplate>
                     <wordle:HistoryEntryView HistoryEntry="{Binding .}"
                                              Padding="20"
-                                             BackgroundColor="#111111"
-                                             HeightRequest="250"/>
+                                             BackgroundColor="#111111"/>
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
         </VerticalStackLayout>

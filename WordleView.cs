@@ -51,8 +51,9 @@ public class WordleView : Grid
                 Columns = HistoryEntry.columns;
             }
 
-            Debug.Assert(Rows != 0 && Columns != 0);
+            Debug.Assert(Rows > 0 && Columns > 0);
 
+            // calculate boxSize and spacing for requested height
             double spacingRatio = 0.1f;
             double boxSize = HeightRequest / (Rows + (Rows - 1) * spacingRatio);
             double spacing = boxSize * spacingRatio;
