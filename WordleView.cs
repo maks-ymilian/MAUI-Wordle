@@ -47,8 +47,8 @@ public class WordleView : Grid
         {
             if (Rows == 0 && Columns == 0 && HistoryEntry != null)
             {
-                Rows = HistoryEntry.rows;
-                Columns = HistoryEntry.columns;
+                Rows = HistoryEntry.Rows;
+                Columns = HistoryEntry.Columns;
             }
 
             Debug.Assert(Rows > 0 && Columns > 0);
@@ -165,15 +165,15 @@ public class WordleView : Grid
     {
         for (int row = 0; row < Rows; row++)
         {
-            if (row < entry.textRows.Length)
-                SetRowText(entry.textRows[row], row);
+            if (row < entry.TextRows.Length)
+                SetRowText(entry.TextRows[row], row);
 
             for (int column = 0; column < Columns; column++)
             {
                 WordleTile tile = WordleTile.Empty;
                 int index = row * Columns + column;
-                if (index < entry.tiles.Length)
-                    tile = entry.tiles[index];
+                if (index < entry.Tiles.Length)
+                    tile = entry.Tiles[index];
 
                 SetTile(row, column, tile);
             }

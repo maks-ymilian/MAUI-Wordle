@@ -6,14 +6,13 @@ namespace Wordle;
 
 public class History
 {
-    public record HistoryEntry(int rows, int columns, string[] textRows, WordleTile[] tiles, string answer)
-    {
-        [JsonInclude] public readonly int rows = rows;
-        [JsonInclude] public readonly int columns = columns;
-        [JsonInclude] public readonly string answer = answer;
-        [JsonInclude] public readonly string[] textRows = textRows;
-        [JsonInclude] public readonly WordleTile[] tiles = tiles;
-    }
+    public record HistoryEntry(
+        [property: JsonInclude] int Rows,
+        [property: JsonInclude] int Columns,
+        [property: JsonInclude] string[] TextRows,
+        [property: JsonInclude] WordleTile[] Tiles,
+        [property: JsonInclude] string Answer
+        );
 
     public List<HistoryEntry> List { get; private set; } = new();
 

@@ -35,7 +35,7 @@ namespace Wordle
 
                 Add(new Label()
                 {
-                    Text = HistoryEntry.answer,
+                    Text = HistoryEntry.Answer,
                     FontSize = 25,
                     HorizontalOptions = LayoutOptions.Center,
                     FontAttributes = FontAttributes.Bold,
