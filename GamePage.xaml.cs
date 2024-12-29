@@ -53,7 +53,7 @@ public partial class GamePage : ContentPage
             gamePage.MainLayout.Insert(0, gamePage.wordleView);
         });
 
-        gamePage.wordList = await wordListManager.GetWordList(wordSize).ConfigureAwait(false);
+        gamePage.wordList = await wordListManager.GetWordListAsync(wordSize).ConfigureAwait(false);
         gamePage.word = gamePage.wordList.GetRandomWord();
 
         return gamePage;
@@ -61,6 +61,8 @@ public partial class GamePage : ContentPage
 
     private void EndGame()
     {
+        Debug.Assert(wordleView != null);
+
         MainEntry.Unfocus();
         MainLayout.Remove(MainEntry);
         MainLayout.Add(new Label()
@@ -68,6 +70,8 @@ public partial class GamePage : ContentPage
             Style = (Style)Resources["WordRevealText"],
             Text = word,
         });
+
+        History.AddEntry(wordleView.GetHistoryEntry());
     }
 
     private void EnterWord()

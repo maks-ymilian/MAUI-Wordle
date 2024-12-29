@@ -1,4 +1,7 @@
-﻿namespace Wordle;
+﻿using System.Diagnostics;
+using static Wordle.History;
+
+namespace Wordle;
 
 public class WordleView : Grid
 {
@@ -19,6 +22,8 @@ public class WordleView : Grid
     private readonly Color notFoundColor = Color.FromRgb(68, 68, 68);
     private readonly Color presentColor = Color.FromRgb(255, 255, 0);
     private readonly Color correctColor = Color.FromRgb(0, 255, 0);
+
+    private WordleTile[]? tiles;
 
     public int Rows { set; get; }
     public int Columns { set; get; }
@@ -54,6 +59,18 @@ public class WordleView : Grid
         }
     }
 
+    public string GetRowText(int row)
+    {
+        string str = "";
+        for (int i = 0; i < Columns; i++)
+        {
+            char? character = GetChar(row, i);
+            if (character != null)
+                str += character;
+        }
+        return str;
+    }
+
     public void SetChar(int row, int col, char? character)
     {
         var layout = (HorizontalStackLayout)vertical.Children[row];
@@ -78,21 +95,41 @@ public class WordleView : Grid
 
     public void SetTile(int row, int col, WordleTile type)
     {
+        Debug.Assert(tiles != null);
+        tiles[col + row * Columns] = type;
+
         var layout = (HorizontalStackLayout)vertical.Children[row];
         Label label = (Label)layout.Children[col];
 
-        label.BackgroundColor = type switch
+        switch (type)
         {
-            WordleTile.Empty => emptyColor,
-            WordleTile.NotFound => notFoundColor,
-            WordleTile.Present => presentColor,
-            WordleTile.Correct => correctColor,
-            _ => throw new InvalidOperationException(),
+            case WordleTile.Empty: label.BackgroundColor = emptyColor; break;
+            case WordleTile.NotFound: label.BackgroundColor = notFoundColor; break;
+            case WordleTile.Present: label.BackgroundColor = presentColor; break;
+            case WordleTile.Correct: label.BackgroundColor = correctColor; break;
         };
+    }
+
+    public HistoryEntry GetHistoryEntry()
+    {
+        Debug.Assert(tiles != null);
+
+        HistoryEntry entry = new()
+        {
+            textRows = new string[Rows],
+            tiles = tiles,
+        };
+
+        for (int i = 0; i < Rows; i++)
+            entry.textRows[i] = GetRowText(i);
+
+        return entry;
     }
 
     private void InitializeProperties()
     {
+        tiles = new WordleTile[Rows * Columns];
+
         vertical.Spacing = BoxSize / 10f;
 
         BuildGrid(BoxSize);

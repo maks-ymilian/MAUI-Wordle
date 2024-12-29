@@ -102,7 +102,7 @@ namespace Wordle
             };
         }
 
-        public async Task<WordList> GetWordList(int numLetters)
+        public async Task<WordList> GetWordListAsync(int numLetters)
         {
             loaders.TryGetValue(numLetters, out WordListLoader? loader);
             if (loader == null)
