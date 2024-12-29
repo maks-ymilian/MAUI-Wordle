@@ -14,7 +14,7 @@ public class WordleView : Grid
     }
 
     public static readonly BindableProperty HistoryEntryProperty = BindableProperty.Create(
-        nameof(HistoryEntry), typeof(HistoryEntry?), typeof(WordleView), null);
+        nameof(HistoryEntry), typeof(HistoryEntry), typeof(WordleView), null);
 
     private readonly VerticalStackLayout vertical;
 
@@ -114,16 +114,11 @@ public class WordleView : Grid
     {
         Debug.Assert(tiles != null);
 
-        HistoryEntry entry = new()
-        {
-            textRows = new string[Rows],
-            tiles = tiles,
-        };
-
+        string[] rows = new string[Rows];
         for (int i = 0; i < Rows; i++)
-            entry.textRows[i] = GetRowText(i);
+            rows[i] = GetRowText(i);
 
-        return entry;
+        return new(rows, tiles);
     }
 
     private void InitializeProperties()
@@ -135,7 +130,7 @@ public class WordleView : Grid
         BuildGrid(BoxSize);
 
         if (HistoryEntry != null)
-            SetFromHistoryEntry((HistoryEntry)HistoryEntry);
+            SetFromHistoryEntry(HistoryEntry);
     }
 
     private void BuildGrid(float boxSize)

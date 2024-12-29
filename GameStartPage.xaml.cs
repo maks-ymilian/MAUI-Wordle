@@ -27,6 +27,8 @@ public partial class GameStartPage : ContentPage
     {
         InitializeComponent();
         BindingContext = this;
+
+        Disappearing += async (object? o, EventArgs e) => await history.WriteToFileAsync();
     }
 
     private async void PlayButtonClicked(object sender, EventArgs e)
