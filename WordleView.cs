@@ -18,10 +18,16 @@ public class WordleView : Grid
 
     private readonly VerticalStackLayout vertical;
 
-    private readonly Color emptyColor = Color.FromRgb(0, 0, 0);
-    private readonly Color notFoundColor = Color.FromRgb(68, 68, 68);
-    private readonly Color presentColor = Color.FromRgb(255, 255, 0);
-    private readonly Color correctColor = Color.FromRgb(0, 255, 0);
+    private readonly Color emptyColor =
+        Application.Current.UserAppTheme == AppTheme.Dark ? 
+        (Color)Application.Current.Resources["Gray900"] :
+        (Color)Application.Current.Resources["Gray200"];
+    private readonly Color notFoundColor =
+        Application.Current.UserAppTheme == AppTheme.Dark ?
+        (Color)Application.Current.Resources["Gray600"] :
+        (Color)Application.Current.Resources["Gray400"];
+    private readonly Color presentColor = (Color)Application.Current.Resources["WordlePresent"];
+    private readonly Color correctColor = (Color)Application.Current.Resources["WordleCorrect"];
 
     private WordleTile[]? tiles;
 
@@ -58,9 +64,9 @@ public class WordleView : Grid
             double boxSize = HeightRequest / (Rows + (Rows - 1) * spacingRatio);
             double spacing = boxSize * spacingRatio;
 
-            tiles = new WordleTile[Rows * Columns];
-
             vertical.Spacing = spacing;
+
+            tiles = new WordleTile[Rows * Columns];
 
             BuildGrid(boxSize, spacing);
 
@@ -150,7 +156,7 @@ public class WordleView : Grid
                     HeightRequest = boxSize,
                     BackgroundColor = emptyColor,
                     TextColor = Colors.White,
-                    FontSize = boxSize / 2f,
+                    FontSize = boxSize * 0.6f,
                     TextTransform = TextTransform.Uppercase,
                     VerticalTextAlignment = TextAlignment.Center,
                     HorizontalTextAlignment = TextAlignment.Center,

@@ -3,11 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Wordle.SettingsPage"
              Title="SettingsPage">
-    <VerticalStackLayout>
-
-        <Label Text="Welcome to .NET MAUI!" 
-               VerticalOptions="Center" 
-                HorizontalOptions="Center"/>
+    <VerticalStackLayout VerticalOptions="Center"
+                         Spacing="10">
 
         <Picker Title="Theme" 
                 WidthRequest="200"

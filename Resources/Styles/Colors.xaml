@@ -6,19 +6,23 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
+    <Color x:Key="WordleCorrect">#538D4E</Color>
+    <Color x:Key="WordlePresent">#B59F3B</Color>
+
+    <Color x:Key="Primary">#4fc468</Color>
+    <Color x:Key="PrimaryDark">#5dd477</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="SecondaryDarkText">#9880e5</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
+    <Color x:Key="Secondary">#d8f7e0</Color>
+    <Color x:Key="SecondaryDarkText">#80e593</Color>
+    <Color x:Key="Tertiary">#0b9838</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
     <Color x:Key="Magenta">#D600AA</Color>
     <Color x:Key="MidnightBlue">#190649</Color>
-    <Color x:Key="OffBlack">#1f1f1f</Color>
+    <Color x:Key="OffBlack">#121212</Color>
 
+    <Color x:Key="Gray50">#E9E9E9</Color>
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray200">#C8C8C8</Color>
     <Color x:Key="Gray300">#ACACAC</Color>

@@ -5,8 +5,16 @@
 
     <Grid>
 
-        <VerticalStackLayout VerticalOptions="Center"
+        <VerticalStackLayout VerticalOptions="Start"
+                             Padding="50"
                              Spacing="10">
+
+            <Label Text="Wordle"
+                   FontSize="75" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Margin="20"/>
 
             <HorizontalStackLayout HorizontalOptions="Center">
 
@@ -34,7 +42,7 @@
         </VerticalStackLayout>
 
         <Grid x:Name="LoadingScreen"
-              BackgroundColor="#222222"
+              BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}"
               IsVisible="{Binding IsLoading, Mode=TwoWay}">
             <ActivityIndicator IsRunning="True"/>
         </Grid>

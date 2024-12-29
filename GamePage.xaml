@@ -18,6 +18,7 @@
                          Spacing="10">
 
         <Entry x:Name="MainEntry"
+               Placeholder="Type here"
                WidthRequest="200"
                HeightRequest="40"
                HorizontalOptions="Center"/>

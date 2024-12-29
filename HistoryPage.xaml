@@ -6,14 +6,16 @@
              x:Class="Wordle.HistoryPage"
              Title="HistoryPage">
     <ScrollView VerticalOptions="FillAndExpand">
-        <VerticalStackLayout x:Name="MainLayout"
-                             Spacing="25"
-                             BindableLayout.ItemsSource="{Binding List}">
+        <VerticalStackLayout
+            x:Name="MainLayout"
+            Spacing="25"
+            BindableLayout.ItemsSource="{Binding List}">
             <BindableLayout.ItemTemplate>
                 <DataTemplate>
-                    <wordle:HistoryEntryView HistoryEntry="{Binding .}"
-                                             Padding="20"
-                                             BackgroundColor="#111111"/>
+                    <wordle:HistoryEntryView
+                        HistoryEntry="{Binding .}"
+                        Padding="20"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray50}, Dark={StaticResource Black}}"/>
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
         </VerticalStackLayout>
