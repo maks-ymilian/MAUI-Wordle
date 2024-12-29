@@ -58,5 +58,5 @@ public partial class GameStartPage : ContentPage
         await Navigation.PushAsync(page);
     }
 
-    private void SettingsButtonClicked(object sender, EventArgs e) => Navigation.PushAsync(new SettingsPage());
+    private void SettingsButtonClicked(object sender, EventArgs e) => Navigation.PushAsync(new SettingsPage(history));
 }

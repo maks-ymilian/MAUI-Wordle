@@ -4,12 +4,16 @@
              x:Class="Wordle.SettingsPage"
              Title="SettingsPage">
     <VerticalStackLayout VerticalOptions="Center"
-                         Spacing="10">
+                         Spacing="30">
 
         <Picker Title="Theme" 
                 WidthRequest="200"
                 SelectedItem="{Binding ChosenTheme, Mode=TwoWay}"
                 ItemsSource="{Binding ThemePickerItems, Mode=TwoWay}"/>
+
+        <Button WidthRequest="200"
+                Text="Clear history"
+                Clicked="ClearHistoryClicked"/>
 
     </VerticalStackLayout>
 </ContentPage>

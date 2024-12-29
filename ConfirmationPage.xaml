@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Wordle.ConfirmationPage"
+             Title="ConfirmationPage">
+    <VerticalStackLayout VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         Spacing="25">
+
+        <Label Text="{Binding ConfirmationText}"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"/>
+
+        <HorizontalStackLayout Spacing="10"
+                               HorizontalOptions="Center">
+
+            <Button WidthRequest="120"
+                    Text="Yes"
+                    Clicked="ClickedYes"/>
+            <Button WidthRequest="120"
+                    Text="No"
+                    Clicked="ClickedNo"/>
+
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>

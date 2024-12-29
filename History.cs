@@ -37,4 +37,12 @@ public class History
         using FileStream stream = File.OpenWrite(filePath);
         await JsonSerializer.SerializeAsync(stream, List);
     }
+
+    public void ClearHistory()
+    {
+        List.Clear();
+
+        if (File.Exists(filePath))
+            File.Delete(filePath);
+    }
 }

@@ -21,8 +21,12 @@ public partial class SettingsPage : ContentPage
 
     public AppTheme[] ThemePickerItems { get; } = { AppTheme.Dark, AppTheme.Light };
 
-    public SettingsPage()
+    private readonly History history;
+
+    public SettingsPage(History history)
     {
+        this.history = history;
+
         InitializeComponent();
         BindingContext = this;
     }
@@ -33,5 +37,20 @@ public partial class SettingsPage : ContentPage
 
         Debug.Assert(Application.Current != null);
         ChosenTheme = Application.Current.UserAppTheme;
+    }
+
+    private async void ClearHistoryClicked(object sender, EventArgs e)
+    {
+        ConfirmationPage page = new ConfirmationPage()
+        {
+            ConfirmationText = "Are you sure you want to clear your history?",
+        };
+        page.ConfirmationCompleted += (object? o, ConfirmationCompletedEventArgs e) =>
+        {
+            if (e.YesClicked)
+                history.ClearHistory();
+        };
+
+        await Navigation.PushModalAsync(page);
     }
 }
