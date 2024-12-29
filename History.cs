@@ -10,7 +10,7 @@ public class History
         public WordleTile[] tiles;
     }
 
-    public static List<HistoryEntry> List { get; private set; } = new();
+    public List<HistoryEntry> List { get; private set; } = new();
 
-    public static void AddEntry(HistoryEntry entry) => List.Add(entry);
+    public void AddEntry(HistoryEntry entry) => List.Add(entry);
 }

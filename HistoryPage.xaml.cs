@@ -4,10 +4,14 @@ namespace Wordle;
 
 public partial class HistoryPage : ContentPage
 {
-    public List<HistoryEntry> List { get => History.List; }
+    public List<HistoryEntry> List { get => history.List; }
 
-    public HistoryPage()
+    private readonly History history;
+
+    public HistoryPage(History history)
     {
+        this.history = history;
+
         InitializeComponent();
         BindingContext = this;
     }

@@ -3,6 +3,7 @@ namespace Wordle;
 public partial class GameStartPage : ContentPage
 {
     private static readonly WordListManager wordListManager = new();
+    private static readonly History history = new();
 
     public static readonly BindableProperty WordSizeProperty =
                 BindableProperty.Create(nameof(WordSize), typeof(int), typeof(GamePage), 5);
@@ -34,7 +35,7 @@ public partial class GameStartPage : ContentPage
 
         try
         {
-            GamePage page = await GamePage.CreateGamePageAsync(WordSize, wordListManager);
+            GamePage page = await GamePage.CreateGamePageAsync(WordSize, wordListManager, history);
             await Navigation.PushAsync(page);
         }
         catch (HttpRequestException) { }
@@ -49,7 +50,7 @@ public partial class GameStartPage : ContentPage
         HistoryPage? page = null;
 
         IsLoading = true;
-        await Task.Run(() => page = new());
+        await Task.Run(() => page = new(history));
         IsLoading = false;
 
         await Navigation.PushAsync(page);

@@ -25,8 +25,12 @@ public partial class GamePage : ContentPage
     private readonly int wordSize;
     private readonly int rows;
 
-    private GamePage(int wordSize, WordListManager wordListManager)
+    private readonly History history;
+
+    private GamePage(int wordSize, History history)
     {
+        this.history = history;
+
         this.wordSize = wordSize;
         rows = rowCounts[wordSize];
 
@@ -38,9 +42,9 @@ public partial class GamePage : ContentPage
         MainEntry.Completed += (object? sender, EventArgs e) => EnterWord();
     }
 
-    public static async Task<GamePage> CreateGamePageAsync(int wordSize, WordListManager wordListManager)
+    public static async Task<GamePage> CreateGamePageAsync(int wordSize, WordListManager wordListManager, History history)
     {
-        GamePage gamePage = new(wordSize, wordListManager);
+        GamePage gamePage = new(wordSize, history);
 
         await Task.Run(() =>
         {
@@ -71,7 +75,7 @@ public partial class GamePage : ContentPage
             Text = word,
         });
 
-        History.AddEntry(wordleView.GetHistoryEntry());
+        history.AddEntry(wordleView.GetHistoryEntry());
     }
 
     private void EnterWord()
