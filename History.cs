@@ -6,8 +6,10 @@ namespace Wordle;
 
 public class History
 {
-    public record HistoryEntry(string[] textRows, WordleTile[] tiles, string answer)
+    public record HistoryEntry(int rows, int columns, string[] textRows, WordleTile[] tiles, string answer)
     {
+        [JsonInclude] public readonly int rows = rows;
+        [JsonInclude] public readonly int columns = columns;
         [JsonInclude] public readonly string answer = answer;
         [JsonInclude] public readonly string[] textRows = textRows;
         [JsonInclude] public readonly WordleTile[] tiles = tiles;

@@ -29,8 +29,6 @@ namespace Wordle
 
                 wordleView = new()
                 {
-                    Rows = 6,
-                    Columns = 5,
                     HistoryEntry = HistoryEntry,
                     HorizontalOptions = LayoutOptions.End,
                     HeightRequest = Height - (Padding.Top + Padding.Bottom),

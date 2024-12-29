@@ -45,6 +45,12 @@ public class WordleView : Grid
 
         Loaded += (object? o, EventArgs e) =>
         {
+            if (Rows == 0 && Columns == 0 && HistoryEntry != null)
+            {
+                Rows = HistoryEntry.rows;
+                Columns = HistoryEntry.columns;
+            }
+
             Debug.Assert(Rows != 0 && Columns != 0);
 
             double spacingRatio = 0.1f;
