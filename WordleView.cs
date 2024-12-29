@@ -28,8 +28,6 @@ public class WordleView : Grid
     public int Rows { set; get; }
     public int Columns { set; get; }
 
-    public float BoxSize { set; get; }
-
     public HistoryEntry? HistoryEntry
     {
         get => (HistoryEntry?)GetValue(HistoryEntryProperty);
@@ -45,7 +43,23 @@ public class WordleView : Grid
         };
         Add(vertical);
 
-        Loaded += (object? o, EventArgs e) => InitializeProperties();
+        Loaded += (object? o, EventArgs e) =>
+        {
+            Debug.Assert(Rows != 0 && Columns != 0);
+
+            double spacingRatio = 0.1f;
+            double boxSize = HeightRequest / (Rows + (Rows - 1) * spacingRatio);
+            double spacing = boxSize * spacingRatio;
+
+            tiles = new WordleTile[Rows * Columns];
+
+            vertical.Spacing = spacing;
+
+            BuildGrid(boxSize, spacing);
+
+            if (HistoryEntry != null)
+                SetFromHistoryEntry(HistoryEntry);
+        };
     }
 
     public void SetRowText(string str, int row)
@@ -110,34 +124,17 @@ public class WordleView : Grid
         };
     }
 
-    public HistoryEntry GetHistoryEntry()
+    public WordleTile[] GetTiles()
     {
         Debug.Assert(tiles != null);
-
-        string[] rows = new string[Rows];
-        for (int i = 0; i < Rows; i++)
-            rows[i] = GetRowText(i);
-
-        return new(rows, tiles);
+        return tiles;
     }
 
-    private void InitializeProperties()
-    {
-        tiles = new WordleTile[Rows * Columns];
-
-        vertical.Spacing = BoxSize / 10f;
-
-        BuildGrid(BoxSize);
-
-        if (HistoryEntry != null)
-            SetFromHistoryEntry(HistoryEntry);
-    }
-
-    private void BuildGrid(float boxSize)
+    private void BuildGrid(double boxSize, double spacing)
     {
         for (int i = 0; i < Rows; i++)
         {
-            HorizontalStackLayout layout = new() { Spacing = boxSize / 10f, };
+            HorizontalStackLayout layout = new() { Spacing = spacing, };
             for (int j = 0; j < Columns; j++)
             {
                 layout.Add(new Label()

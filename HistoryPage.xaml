@@ -11,10 +11,10 @@
                              BindableLayout.ItemsSource="{Binding List}">
             <BindableLayout.ItemTemplate>
                 <DataTemplate>
-                    <wordle:WordleView HistoryEntry="{Binding .}"
-                                       Rows="6" 
-                                       Columns="5" 
-                                       BoxSize="35"/>
+                    <wordle:HistoryEntryView HistoryEntry="{Binding .}"
+                                             Padding="20"
+                                             BackgroundColor="#111111"
+                                             HeightRequest="250"/>
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
         </VerticalStackLayout>

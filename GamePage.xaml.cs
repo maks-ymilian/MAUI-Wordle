@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using static Wordle.History;
 
 namespace Wordle;
 
@@ -52,7 +53,7 @@ public partial class GamePage : ContentPage
             {
                 Rows = gamePage.rows,
                 Columns = gamePage.wordSize,
-                BoxSize = 50,
+                HeightRequest = 330,
             };
             gamePage.MainLayout.Insert(0, gamePage.wordleView);
         });
@@ -65,7 +66,7 @@ public partial class GamePage : ContentPage
 
     private void EndGame()
     {
-        Debug.Assert(wordleView != null);
+        Debug.Assert(wordleView != null && word != null);
 
         MainEntry.Unfocus();
         MainLayout.Remove(MainEntry);
@@ -75,7 +76,11 @@ public partial class GamePage : ContentPage
             Text = word,
         });
 
-        history.AddEntry(wordleView.GetHistoryEntry());
+        string[] textRows = new string[rows];
+        for (int i = 0; i < rows; i++)
+            textRows[i] = wordleView.GetRowText(i);
+
+        history.AddEntry(new HistoryEntry(textRows, wordleView.GetTiles(), word));
     }
 
     private void EnterWord()
